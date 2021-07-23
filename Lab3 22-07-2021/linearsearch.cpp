@@ -11,7 +11,6 @@ int randomNumber()
 std::vector<double> compareTime(std::vector<std::vector<int>> arr)
 {
     std::vector<double> times;
-    clock_t start, end;
     double tim;
     int num;
     srand(time(0));
