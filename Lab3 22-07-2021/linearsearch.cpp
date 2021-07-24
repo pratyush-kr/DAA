@@ -16,6 +16,7 @@ std::vector<double> compareTime(std::vector<std::vector<int>> arr)
     srand(time(0));
     for(int i=0; i<arr.size(); i++)
     {
+        tim = arr[i].size();
         num = randomNumber();
         for(int j=1; j<arr[i].size(); j++)
             if(arr[i][j] == num)
@@ -23,6 +24,7 @@ std::vector<double> compareTime(std::vector<std::vector<int>> arr)
                 tim = j;
                 break;
             }
+        
         times.push_back(tim);
     }
     return times;
