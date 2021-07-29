@@ -39,12 +39,13 @@ void merge(std::vector<int> &arr, int l, int m , int r)
 void merge_sort(std::vector<int> &arr, int l, int r)
 {
     func_call++;
-    if(l >= r)
-        return;
-    int mid = (l+r)/2;
-    merge_sort(arr, l, mid);
-    merge_sort(arr, mid+1, r);
-    merge(arr, l, mid, r);
+    if(l <= r)
+    {
+        int mid = (l+r)/2;
+        merge_sort(arr, l, mid);
+        merge_sort(arr, mid+1, r);
+        merge(arr, l, mid, r);
+    }
 }
 
 int main()
