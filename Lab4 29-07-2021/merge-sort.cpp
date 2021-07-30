@@ -44,7 +44,6 @@ void merge_sort(std::vector<int> &arr, int l, int r)
         int mid = (l+r)/2;
         merge_sort(arr, l, mid);
         merge_sort(arr, mid+1, r);
-        std::cout<<"It works\n";
         merge(arr, l, mid, r);
     }
 }
