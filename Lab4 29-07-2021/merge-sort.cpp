@@ -4,47 +4,55 @@
 #include<vector>
 #include<algorithm>
 #include<fstream>
+#include<map>
 
 int func_call = 0;
 
 int randomNumber()
 {
-    return rand() % 100 + 1;
+    return rand() % 10000 + 1;
 }
 
-void merge(std::vector<int> &arr, int l, int m , int r)
+void merge(std::vector<int> &arr, const int l, const int m , const int r)
 {
-    int n1, n2;
-    n1 = m;
-    n2 = r;
-    std::vector<int> arr1, arr2, array;
-    for(int i=l; i<n1; i++)
-        arr1.push_back(arr[i]);
-    for(int i=n1; i<n2; i++)
-        arr2.push_back(arr[i]);
-    int i=0, j=0, z=l;
-    while(i < arr1.size() && j < arr2.size())
+    std::vector<int> array;
+    int i=l, j=m+1;
+    while(i <= m && j <= r)
     {
-        if(arr1[i] < arr2[j])
-            arr[z++] = arr1[i++];
+        func_call++;
+        if(arr[i] <= arr[j])
+        {
+            array.push_back(arr[i]);
+            i++;
+        }
         else
-            arr[z++] = arr2[j++];
+        {
+            array.push_back(arr[j]);
+            j++;
+        }
     }
-    while(i<arr1.size())
-        arr[z++] = arr1[i++];
-    while(j<arr2.size())
-        arr[z++] = arr2[j++];
+    while(i <= m)
+    {
+        array.push_back(arr[i]);
+        i++;
+    }
+    while(j <= r)
+    {
+        array.push_back(arr[j]);
+        j++;
+    }
+    for(int i=l; i<=r; i++)
+        arr[i] = array[i - l];
 }
 
-void merge_sort(std::vector<int> &arr, int l, int r)
+void merge_sort(std::vector<int> &arr, const int l, const int r)
 {
-    func_call++;
     if(l < r)
     {
-        int mid = (l+r)/2;
-        merge_sort(arr, l, mid);
-        merge_sort(arr, mid+1, r);
-        merge(arr, l, mid, r);
+        int m = (l+r)/2;
+        merge_sort(arr, l, m);
+        merge_sort(arr, m+1, r);
+        merge(arr, l, m, r);
     }
 }
 
@@ -67,15 +75,14 @@ int main()
         }
         arrays.push_back(*arr);
     }
-    int key, time_taken;
+    int time_taken;
     std::ofstream file("MS_data.csv");
     file<<"n,timetaken\n";
     for(int i=0; i<arrays.size(); i++)
     {
-        key = randomNumber();
-        merge_sort(arrays[i], 0, arrays[i].size());
-        time_taken = func_call;
         func_call = 0;
+        merge_sort(arrays[i], 0, arrays[i].size()-1);
+        time_taken = func_call;
         file<<arrays[i].size()<<','<<time_taken<<'\n';
     }
     return 0;
