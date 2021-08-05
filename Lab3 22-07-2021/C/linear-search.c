@@ -26,34 +26,34 @@ int LinearSearch(int *arr, int n)
 
 int main()
 {
-    FILE *outfile = fopen("Data.csv", "w");
+    FILE *outfile = fopen("LS_Data.csv", "w");
     int **vec, *arr;
-    int n, num, m, *array_sizes;
-    printf("n: ");
-    scanf(" %d", &n);
-    vec = (int**)malloc(sizeof(int*)*n);
-    array_sizes = (int*)malloc(sizeof(int)*n);
+    int n, num, testcases, *array_sizes;
+    printf("TestCases: ");
+    scanf(" %d", &testcases);
+    vec = (int**)malloc(sizeof(int*)*testcases);
+    array_sizes = (int*)malloc(sizeof(int)*testcases);
     srand(time(0));
-    for(int i=0; i<n; i++)
+    for(int i=0; i<testcases; i++)
     {
-        m = randomNumber();
-        arr = (int*)malloc(sizeof(int)*m);
-        for(int j=0; j<m; j++)
+        n = randomNumber();
+        arr = (int*)malloc(sizeof(int)*n);
+        for(int j=0; j<n; j++)
         {
             num = randomNumber();
             arr[j] = num;
         }
         vec[i] = arr;
-        array_sizes[i] = m;
+        array_sizes[i] = n;
     }
+    for(int i=0; i<array_sizes[0]; i++)
+        printf("%d ", vec[0][i]);
+    printf("\n");
     fprintf(outfile, "n,looped\n");
-    char size[5], loop[5];
-    for(int i=0; i<n; i++)
+    for(int i=0; i<testcases; i++)
     {
         int looped = LinearSearch(vec[i], array_sizes[i]);
-        sprintf(loop, "%d", looped);
-        sprintf(size, "%d", array_sizes[i]);
-        fprintf(outfile, "%s,%s\n", size, loop);
+        fprintf(outfile, "%d,%d\n", array_sizes[i], looped);
     }
     return 0;
 }

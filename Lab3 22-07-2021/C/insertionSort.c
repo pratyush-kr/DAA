@@ -27,20 +27,19 @@ int insertionSort(int *array, int n)
 
 int main()
 {
-    FILE *outfile = fopen("iData.csv", "w");
+    FILE *outfile = fopen("IS_Data.csv", "w");
     int **vec, *array_sizes;
     int n, num, testcases;
     int *arr;
     printf("TestCases: ");
     scanf(" %d", &testcases);
-    vec = (int**)malloc(sizeof(int*)*n);
-    array_sizes = (int*)malloc(sizeof(int)*n);
+    vec = (int**)malloc(sizeof(int*)*testcases);
+    array_sizes = (int*)malloc(sizeof(int)*testcases);
     srand(time(0));
     for(int i=0; i<testcases; i++)
     {
         n = randomNumber();
         arr = (int*)malloc(sizeof(int)*n);
-        srand(time(0));
         for(int j=0; j<n; j++)
         {
             num = randomNumber();
