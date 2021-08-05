@@ -43,24 +43,25 @@ std::vector<double> compareTime(std::vector<std::vector<int>> arr)
 
 int main()
 {
-    std::ofstream outfile("iData.csv");
+    std::ofstream outfile("IS_Data.csv");
     std::vector<std::vector<int>> vec;
-    int n, arr_size = 15, num;
+    int testcases, n, num;
     std::vector<int> *arr;
-    std::cout<<"n: ";
-    std::cin>>n;
+    std::cout<<"TestCases: ";
+    std::cin>>testcases;
     srand(time(0));
-    for(int i=0; i<n; i++)
+    for(int i=0; i<testcases; i++)
     {
-        arr_size = randomNumber();
+        n = randomNumber();
         arr = new std::vector<int>;
-        for(int j=0; j<arr_size; j++)
+        for(int j=0; j<n; j++)
         {
             num = randomNumber();
             arr->push_back(num);
         }
         vec.push_back(*arr);
     }
+    outfile<<"n,"<<"Looped\n";
     std::vector<double> times = compareTime(vec);
     for(int i=0; i<vec.size(); i++)
         outfile<<std::to_string(vec[i].size())<<","<<std::to_string(times[i])<<'\n';
