@@ -63,7 +63,7 @@ int main()
             mp[j] = 0;
     int testcases, n, num;
     printf("TestCases: ");
-    scanf("%d", &testcases);
+    scanf(" %d", &testcases);
     int **arrays, *arr, *array_sizes;
     arrays = (int**)malloc(sizeof(int*)*testcases);
     array_sizes = (int*)malloc(sizeof(int)*testcases);
