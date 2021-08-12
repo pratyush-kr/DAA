@@ -25,11 +25,12 @@ int main()
     printf("Test Cases: ");
     std::cin>>test_cases;
     srand(time(0));
-    while(i++ < test_cases)
+    while(i < test_cases)
     {
+        i++;
         arr = new std::vector<int>;
         size = RandomNumber();
-        for(int j=0; i<size; j++)
+        for(int j=0; j<size; j++)
         {
             num = RandomNumber();
             arr->push_back(num);
@@ -37,13 +38,13 @@ int main()
         arrays.push_back(*arr);
     }
     i=0;
-    std::fstream outfile("Data.csv");
+    std::fstream outfile("Data.csv", std::ios::out);
     outfile<<"N, Complexity\n";
-    while(i < test_cases-1)
+    while(i < test_cases)
     {
         complexity = 0; //var in global scope
         quickSort(arrays[i], 0, arrays[i].size()-1);
-        outfile<<arrays[i++].size()<<","<<complexity;
+        outfile<<arrays[i++].size()<<","<<complexity<<'\n';
     }
     outfile.close();
     return 0;
@@ -66,7 +67,8 @@ int partition(std::vector<int> &arr, const int &left, const int &right)
     int i = (left - 1);
   
     for (int j=left; j<right; j++) 
-    { 
+    {
+        complexity++;
         if (arr[j] < pivot) 
         { 
             i++;
