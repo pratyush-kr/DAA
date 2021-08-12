@@ -7,7 +7,7 @@ int RandomNumber()
     return rand() % 100 + 1;
 }
 
-int quickSort(std::vector<int> &); //returns complexity to sort an array
+int quickSort(std::vector<int> &, const int&, const int&); //returns complexity to sort an array
 
 int main()
 {
@@ -33,9 +33,14 @@ int main()
     outfile<<"N, Complexity\n";
     while(i < test_cases-1)
     {
-        int complexity = quickSort(arrays[i++]);
-        outfile<<arrays[i].size()<<","<<complexity;
+        int complexity = quickSort(arrays[i], 0, arrays[i].size()-1);
+        outfile<<arrays[i++].size()<<","<<complexity;
     }
     outfile.close();
     return 0;
+}
+
+int quickSort(std::vector<int> &arr)
+{
+    int complexity = 0;
 }
