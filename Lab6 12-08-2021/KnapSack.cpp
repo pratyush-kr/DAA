@@ -39,9 +39,19 @@ class Object
         }
 };
 
-int compare(const Object &a, const Object &b)
+int comparePbyW(const Object &a, const Object &b)
 {
     return (a.pbyw > b.pbyw)? 1:0;
+}
+
+int compareP(const Object &a, const Object &b)
+{
+    return (a.profit > b.profit)? 1:0;
+}
+
+int compareW(const Object &a, const Object &b)
+{
+    return (a.weight > b.weight)? 1:0;
 }
 
 int main()
@@ -57,7 +67,7 @@ int main()
     std::cin>>weight;
     std::cout<<"Capacity: ";
     std::cin>>capacity;
-    std::sort(&objects[0], &objects[total-1], compare);
+    std::sort(&objects[0], &objects[total-1], comparePbyW);
     printf("Objects\n");
     printf("Name Profit PbyW   Parts Weights\n");
     for(int i=0; i<total; i++)
