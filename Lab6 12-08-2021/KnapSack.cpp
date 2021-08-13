@@ -3,6 +3,7 @@
 #include<algorithm>
 #include<queue>
 #include<map>
+#include<cstring>
 
 int RandomProfit()
 {
@@ -17,12 +18,16 @@ int RandomWeight()
 class Object
 {
     public:
+        std::string obname;
         float profit;
         float weight;
         float pbyw;
         float parts;
         Object()
         {
+            static int x;
+            std::string num = (std::string)std::to_string(++x);
+            obname = "O" + num;
             profit = RandomProfit();
             weight = RandomWeight();
             pbyw = profit/weight;
@@ -30,7 +35,7 @@ class Object
         }
         void show()
         {
-            printf("%-6.0f %-4.2f   %-7.2f %-8.0f\n", profit, pbyw, parts, weight);
+            printf("%-4s %-6.2f %-4.2f   %-7.2f %-8.2f\n",&obname[0], profit, pbyw, parts, weight);
         }
 };
 
@@ -42,7 +47,7 @@ int compare(const Object &a, const Object &b)
 int main()
 {
     std::vector<Object*> KnapSack;
-    int total;
+    int total, capacity;
     std::cout<<"Total Objects: ";
     std::cin>>total;
     srand(time(0));
@@ -50,17 +55,20 @@ int main()
     float weight;
     std::cout<<"Total Weight Knapsack can hold: ";
     std::cin>>weight;
+    std::cout<<"Capacity: ";
+    std::cin>>capacity;
     std::sort(&objects[0], &objects[total-1], compare);
-    printf("Profit PbyW   Parts Weights\n");
+    printf("Objects\n");
+    printf("Name Profit PbyW   Parts Weights\n");
     for(int i=0; i<total; i++)
         objects[i].show();
+    std::cout<<"\n";
     std::queue<Object*> Queue;
     for(int i=0; i<total; i++)
         Queue.push(&objects[i]);
-    int i=0;
-    while(weight != 0)
+    while(weight != 0 && capacity--)
     {
-        if(objects[i].weight < weight)
+        if(Queue.front()->weight < weight)
         {
             Object *ptr = Queue.front();
             KnapSack.push_back(ptr);
@@ -73,15 +81,20 @@ int main()
             float factor = ptr->weight/weight;
             ptr->weight = ptr->weight/factor;
             ptr->parts = ptr->parts/factor;
-            ptr->weight = ptr->weight/factor;
             ptr->profit = ptr->profit/factor;
             KnapSack.push_back(ptr);
             Queue.pop();
             weight = 0;
         }
     }
+    float p = 0,w=0,x=0;
     printf("Knapsack: \n");
-    printf("Profit PbyW   Parts Weights\n");
+    printf("Name Profit PbyW   Parts Weights\n");
     for(int i=0; i<KnapSack.size(); i++)
+    {
+        p += KnapSack[i]->profit;
+        w += KnapSack[i]->weight;
         KnapSack[i]->show();
+    }
+    printf("Total Profit = %.2f\nTotal Weight = %.2f\nObjects = %ld\n", p, w, KnapSack.size());
 }
