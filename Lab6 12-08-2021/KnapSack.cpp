@@ -19,8 +19,7 @@ class Object
         Object()
         {
             static int x;
-            std::string num = (std::string)std::to_string(++x);
-            obname = "O" + num;
+            obname = "O" + std::to_string(++x);
             profit = RandomProfit();
             weight = RandomWeight();
             pbyw = profit/weight;
@@ -74,12 +73,12 @@ int main()
 std::vector<Object*> fillKnapSack(Object *objects, const int total, int weight, int capacity, const char *sortby)
 {
     std::vector<Object*> KnapSack;
-    if(!strcmp(sortby, "PbyW"))
-        std::sort(&objects[0], &objects[total-1], comparePbyW);
-    else if(!strcmp(sortby, "P"))
+    if(!strcmp(sortby, "P"))
         std::sort(&objects[0], &objects[total-1], compareP);
     else if(!strcmp(sortby, "W"))
         std::sort(&objects[0], &objects[total-1], compareW);
+    else
+        std::sort(&objects[0], &objects[total-1], comparePbyW);
     std::queue<Object*> Queue;
     for(int i=0; i<total; i++)
         Queue.push(&objects[i]);
