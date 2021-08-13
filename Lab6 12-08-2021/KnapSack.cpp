@@ -4,6 +4,7 @@
 #include<queue>
 #include<map>
 #include<cstring>
+#include<iomanip>
 
 int RandomProfit() {return rand() % 15 + 1;}
 int RandomWeight() {return rand() % 25 + 1;}
@@ -25,16 +26,34 @@ class Object
             pbyw = profit/weight;
             parts = 1;
         }
-        void show()
-        {
-            printf("%-4s %-6.2f %-4.2f   %-7.2f %-8.2f\n",&obname[0], profit, pbyw, parts, weight);
-        }
+        friend std::ostream& operator<<(std::ostream&, const Object&);
 };
 
 int comparePbyW(const Object &a, const Object &b) {return (a.pbyw > b.pbyw)? 1:0;}
 int compareP(const Object &a, const Object &b) {return (a.profit > b.profit)? 1:0;}
 int compareW(const Object &a, const Object &b) {return (a.weight > b.weight)? 1:0;}
 std::vector<Object*> fillKnapSack(Object *, const int, int, const int, const char*);
+void show(const Object *objects, int total)
+{
+    printf("Name Profit PbyW   Parts Weights\n");
+    for(int i=0; i<total; i++)
+        std::cout<<objects[i];
+    std::cout<<"\n";
+}
+
+void show(const std::vector<Object*> KnapSack)
+{
+    float p = 0,w=0,x=0;
+    printf("Knapsack: \n");
+    printf("Name Profit PbyW   Parts Weights\n");
+    for(int i=0; i<KnapSack.size(); i++)
+    {
+        p += KnapSack[i]->profit;
+        w += KnapSack[i]->weight;
+        std::cout<<*(KnapSack[i]);
+    }
+    printf("Total Profit = %.2f\nTotal Weight = %.2f\nObjects = %ld\n", p, w, KnapSack.size());
+}
 
 int main()
 {
@@ -50,24 +69,12 @@ int main()
     std::cout<<"Capacity: ";
     std::cin>>capacity;
     printf("Objects\n");
-    printf("Name Profit PbyW   Parts Weights\n");
-    for(int i=0; i<total; i++)
-        objects[i].show();
-    std::cout<<"\n";
+    show(objects, total);
     char sortby[10];
     std::cout<<"SortBy(PbyW, W, P): ";
     std::cin>>sortby;
     KnapSack = fillKnapSack(objects, total, weight, capacity, sortby);
-    float p = 0,w=0,x=0;
-    printf("Knapsack: \n");
-    printf("Name Profit PbyW   Parts Weights\n");
-    for(int i=0; i<KnapSack.size(); i++)
-    {
-        p += KnapSack[i]->profit;
-        w += KnapSack[i]->weight;
-        KnapSack[i]->show();
-    }
-    printf("Total Profit = %.2f\nTotal Weight = %.2f\nObjects = %ld\n", p, w, KnapSack.size());
+    show(KnapSack);   
 }
 
 std::vector<Object*> fillKnapSack(Object *objects, const int total, int weight, int capacity, const char *sortby)
@@ -104,4 +111,15 @@ std::vector<Object*> fillKnapSack(Object *objects, const int total, int weight, 
         }
     }
     return KnapSack;
+}
+
+std::ostream& operator<<(std::ostream &out, const Object &obj)
+{
+    using namespace std;
+    out <<left<<setw(5)<<setprecision(2)<<obj.obname
+        <<left<<setw(7)<<setprecision(2)<<obj.profit
+        <<left<<setw(5)<<setprecision(2)<<obj.pbyw<<"  "
+        <<left<<setw(8)<<setprecision(2)<<obj.parts
+        <<left<<setw(8)<<setprecision(2)<<obj.weight<<"\n";
+    return out;
 }
