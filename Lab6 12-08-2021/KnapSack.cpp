@@ -33,6 +33,7 @@ int comparePbyW(const Object &a, const Object &b) {return (a.pbyw > b.pbyw)? 1:0
 int compareP(const Object &a, const Object &b) {return (a.profit > b.profit)? 1:0;}
 int compareW(const Object &a, const Object &b) {return (a.weight > b.weight)? 1:0;}
 std::vector<Object*> fillKnapSack(Object *, const int, int, const int, const char*);
+
 void show(const Object *objects, int total)
 {
     printf("Name Profit PbyW   Parts Weights\n");
