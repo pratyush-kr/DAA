@@ -91,7 +91,7 @@ std::vector<Object*> fillKnapSack(Object *objects, const int total, int weight, 
     std::queue<Object*> Queue;
     for(int i=0; i<total; i++)
         Queue.push(&objects[i]);
-    while(weight != 0 && capacity--)
+    while(weight != 0 && capacity-- && Queue.size() != 0)
     {
         if(Queue.front()->weight < weight)
         {
