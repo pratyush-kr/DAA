@@ -5,15 +5,8 @@
 #include<map>
 #include<cstring>
 
-int RandomProfit()
-{
-    return rand() % 15 + 1;
-}
-
-int RandomWeight()
-{
-    return rand() % 25 + 1;
-}
+int RandomProfit() {return rand() % 15 + 1;}
+int RandomWeight() {return rand() % 25 + 1;}
 
 class Object
 {
@@ -39,20 +32,10 @@ class Object
         }
 };
 
-int comparePbyW(const Object &a, const Object &b)
-{
-    return (a.pbyw > b.pbyw)? 1:0;
-}
-
-int compareP(const Object &a, const Object &b)
-{
-    return (a.profit > b.profit)? 1:0;
-}
-
-int compareW(const Object &a, const Object &b)
-{
-    return (a.weight > b.weight)? 1:0;
-}
+int comparePbyW(const Object &a, const Object &b) {return (a.pbyw > b.pbyw)? 1:0;}
+int compareP(const Object &a, const Object &b) {return (a.profit > b.profit)? 1:0;}
+int compareW(const Object &a, const Object &b) {return (a.weight > b.weight)? 1:0;}
+std::vector<Object*> fillKnapSack(Object *, const int, int, const int, const char*);
 
 int main()
 {
@@ -67,12 +50,36 @@ int main()
     std::cin>>weight;
     std::cout<<"Capacity: ";
     std::cin>>capacity;
-    std::sort(&objects[0], &objects[total-1], comparePbyW);
     printf("Objects\n");
     printf("Name Profit PbyW   Parts Weights\n");
     for(int i=0; i<total; i++)
         objects[i].show();
     std::cout<<"\n";
+    char sortby[10];
+    std::cout<<"SortBy(PbyW, W, P): ";
+    std::cin>>sortby;
+    KnapSack = fillKnapSack(objects, total, weight, capacity, sortby);
+    float p = 0,w=0,x=0;
+    printf("Knapsack: \n");
+    printf("Name Profit PbyW   Parts Weights\n");
+    for(int i=0; i<KnapSack.size(); i++)
+    {
+        p += KnapSack[i]->profit;
+        w += KnapSack[i]->weight;
+        KnapSack[i]->show();
+    }
+    printf("Total Profit = %.2f\nTotal Weight = %.2f\nObjects = %ld\n", p, w, KnapSack.size());
+}
+
+std::vector<Object*> fillKnapSack(Object *objects, const int total, int weight, int capacity, const char *sortby)
+{
+    std::vector<Object*> KnapSack;
+    if(!strcmp(sortby, "PbyW"))
+        std::sort(&objects[0], &objects[total-1], comparePbyW);
+    else if(!strcmp(sortby, "P"))
+        std::sort(&objects[0], &objects[total-1], compareP);
+    else if(!strcmp(sortby, "W"))
+        std::sort(&objects[0], &objects[total-1], compareW);
     std::queue<Object*> Queue;
     for(int i=0; i<total; i++)
         Queue.push(&objects[i]);
@@ -97,14 +104,5 @@ int main()
             weight = 0;
         }
     }
-    float p = 0,w=0,x=0;
-    printf("Knapsack: \n");
-    printf("Name Profit PbyW   Parts Weights\n");
-    for(int i=0; i<KnapSack.size(); i++)
-    {
-        p += KnapSack[i]->profit;
-        w += KnapSack[i]->weight;
-        KnapSack[i]->show();
-    }
-    printf("Total Profit = %.2f\nTotal Weight = %.2f\nObjects = %ld\n", p, w, KnapSack.size());
+    return KnapSack;
 }
