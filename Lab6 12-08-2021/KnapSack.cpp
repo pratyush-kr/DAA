@@ -5,6 +5,7 @@
 #include<map>
 #include<cstring>
 #include<iomanip>
+#include<ctime>
 
 int RandomProfit() {return rand() % 15 + 1;}
 int RandomWeight() {return rand() % 25 + 1;}
