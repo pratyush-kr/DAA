@@ -118,10 +118,10 @@ std::vector<Object*> fillKnapSack(Object *objects, const int total, int weight, 
 std::ostream& operator<<(std::ostream &out, const Object &obj)
 {
     using namespace std;
-    out <<left<<setw(5)<<setprecision(2)<<obj.obname
-        <<left<<setw(7)<<setprecision(2)<<obj.profit
-        <<left<<setw(5)<<setprecision(2)<<obj.pbyw<<"  "
-        <<left<<setw(8)<<setprecision(2)<<obj.parts
-        <<left<<setw(8)<<setprecision(2)<<obj.weight<<"\n";
+    out <<left<<setw(5)<<setprecision(3)<<obj.obname
+        <<left<<setw(7)<<setprecision(3)<<obj.profit
+        <<left<<setw(5)<<setprecision(3)<<obj.pbyw<<"  "
+        <<left<<setw(8)<<setprecision(3)<<obj.parts
+        <<left<<setw(8)<<setprecision(3)<<obj.weight<<"\n";
     return out;
 }
