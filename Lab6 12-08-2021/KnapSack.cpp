@@ -75,7 +75,7 @@ int main()
     std::cout<<"SortBy(PbyW, W, P): ";
     std::cin>>sortby;
     KnapSack = fillKnapSack(objects, total, weight, capacity, sortby);
-    show(KnapSack);   
+    show(KnapSack);
 }
 
 std::vector<Object*> fillKnapSack(Object *objects, const int total, int weight, int capacity, const char *sortby)
