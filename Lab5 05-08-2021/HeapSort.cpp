@@ -1,7 +1,9 @@
 #include<iostream>
 #include<vector>
 #include<ctime>
+#include<fstream>
 
+int complexity = 0;
 int randomNumber() {return rand() % 20 + 1;}
 void swap(int &a, int &b) {a ^=b ^= a ^= b;}
 void heapify(std::vector<int>&, int, int);
@@ -27,8 +29,14 @@ int main()
     }
     for(int i=0; i<test_cases; i++)
         print(arrays[i]);
+    std::fstream outfile("Data.csv", std::ios::out);
+    outfile<<"N,Complexity\n";
     for(int i=0; i<test_cases; i++)
+    {
+        complexity = 0;
         heapSort(arrays[i]);
+        outfile<<arrays[i].size()<<","<<complexity<<'\n';
+    }
     printf("After Sorting\n");
     for(int i=0; i<test_cases; i++)
         print(arrays[i]);
@@ -37,6 +45,7 @@ int main()
 
 void heapify(std::vector<int> &arr, int n, int i)
 {
+    complexity++;
     int largest = i;
     int left = 2 * i + 1;
     int right = 2 * i + 2;
@@ -53,12 +62,13 @@ void heapify(std::vector<int> &arr, int n, int i)
 void heapSort(std::vector<int> &arr)
 {
     int n = arr.size();
-    for (int i = n / 2 - 1; i >= 0; i--)
-      heapify(arr, n, i);
-    for (int i = n - 1; i >= 0; i--)
+    for(int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+    for(int i = n - 1; i >= 0; i--)
     {
-      swap(arr[0], arr[i]);
-      heapify(arr, i, 0);
+        complexity++;
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
     }
 }
 
