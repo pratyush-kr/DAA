@@ -40,6 +40,7 @@ struct Info
 };
 
 std::vector<Info> count_frequency(const std::string &);
+void heapify(Node* [], int);
 
 int main()
 {
@@ -55,6 +56,14 @@ int main()
     //print info of str
     for(auto x : info)
         printf("%c %d\n", x.data, x.frequency);
+    int distict_elements = info.size();
+    Node* heap[distict_elements+1];
+    heap[0] = NULL;
+    int i=1;
+    for(auto x : info)
+        heap[i] = new Node(x.data, x.frequency);
+    for(int i=2; i<=distict_elements; i++)
+        heapify(heap, i);
     return 0;
 }
 
@@ -72,4 +81,16 @@ std::vector<Info> count_frequency(const std::string &str)
         info.push_back(*ptr);
     }
     return info;
+}
+
+void heapify(Node* arr[], int n)
+{
+    int i = n;
+    Node *tmp = arr[i];
+    while(i>1 && arr[i]->frequency > arr[i/2]->frequency)
+    {
+        arr[i] = arr[i/2];
+        i = i/2;
+    }
+    arr[n] = tmp;
 }
