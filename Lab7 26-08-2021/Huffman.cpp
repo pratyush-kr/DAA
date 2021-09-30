@@ -43,7 +43,7 @@ struct String
 struct HuffmanTree
 {
     Node *root;
-    string bstEncoder(Node *root, char ch, string str = "");
+    string bstEncoder(Node *root, char ch, string str);
     string encode(string str, Node *root);
     string decode(string str, Node *root);
     void buildTree(Node *root, vector<Node*> LeafNodes, int sum);
@@ -59,7 +59,7 @@ int main()
     int i=0;
     for(auto mp : msg.freq)
         LeafNodes.push_back(new Node(mp.second, mp.first));
-    stable_sort(LeafNodes.begin(), LeafNodes.end(), [](Node *a, Node *b){return (a->frequecy <= b->frequecy)? 1:0;});
+    sort(LeafNodes.begin(), LeafNodes.end(), [](Node *a, Node *b){return (a->frequecy < b->frequecy)? 1:0;});
     printf("sorted: ");
     for(auto ptr : LeafNodes)
         printf("%c", ptr->symbol);
@@ -73,8 +73,8 @@ int main()
     tree.buildTree(tree.root, LeafNodes, fsum);
     string e, d;
     e = tree.encode(str, tree.root);
-    cout<<e<<'\n'<<e.size()<<'\n';
-    d = tree.decode(d, tree.root);
+    cout<<e<<'\n';
+    d = tree.decode(e, tree.root);
     cout<<d<<'\n';
     return 0;
 }
