@@ -33,14 +33,32 @@ char* Strings::lcs(int n, int m)
         }
         
     }
+    int index = memo[n][m];
+    char *lcs_str = new char[index+1];
+    lcs_str[index] = '\0';
     int i=n, j=m;
+    while(i>0 && j>0)
+    {
+        if(A[i-1] == B[j-1])
+        {
+            lcs_str[index-1] = A[i-1];
+            i--;
+            j--;
+            index--;
+        }
+        else if(memo[i-1][j] > memo[i][j-1]-1)
+            i--;
+        else
+            j--;
+    }
+    return lcs_str;
 }
 
 int main()
 {
     string A, B;
-    A = "stone";
-    B = "longest";
+    A = "human";
+    B = "chimpanzee";
     printf("A: %s\n", &A[0]);
     printf("B: %s\n", &B[0]);
     Strings x(A, B);
