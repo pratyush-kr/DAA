@@ -54,7 +54,7 @@ int main()
     string str;
     getline(cin, str);
     cout<<str<<'\n';
-    String msg(str);   
+    String msg(str);
     vector<Node*> LeafNodes;
     int i=0;
     for(auto mp : msg.freq)
@@ -64,9 +64,7 @@ int main()
     for(auto ptr : LeafNodes)
         printf("%c", ptr->symbol);
     cout<<'\n';
-    int fsum=0;
-    for(auto node : LeafNodes)
-        fsum += node->frequecy;
+    int fsum=msg.size;
     printf("total length = %d\nfrequecy sum = %d\n", msg.size, fsum);
     HuffmanTree tree;
     tree.root = new Node(fsum, '\0');
