@@ -5,30 +5,35 @@ using namespace std;
 
 struct Strings
 {
-    char *A;
-    char *B;
-    int m;
-    int n;
-    int **memo;
+    char *A, *B;
+    int n, m;
     Strings(string A, string B)
     {
         this->A = &A[0];
         this->B = &B[0];
-        m = A.size();
-        n = B.size();
-        memo = new int*[m];
-        for(int i=0; i<m; i++)
-            memo[i] = new int[n];
-        for(int i=0; i<m; i++)
-            for(int j=0; j<n; j++)
-                memo[i][j] = -1;
+        n = A.size();
+        m = B.size();
     }
-    int lcs(int , int);
+    char* lcs(int , int);
 };
 
-int Strings::lcs(int i, int j)
+char* Strings::lcs(int n, int m)
 {
-
+    int memo[n+1][m+1];
+    for(int i=0; i<=n; i++)
+    {
+        for(int j=0; j<=m; j++)
+        {
+            if(i==0 || j==0)
+                memo[i][j] = 0;
+            else if(A[i-1] == B[j-1])
+                memo[i][j] = 1+memo[i-1][j-1];
+            else
+                memo[i][j] = max(memo[i][j-1], memo[i-1][j]);
+        }
+        
+    }
+    int i=n, j=m;
 }
 
 int main()
@@ -39,15 +44,6 @@ int main()
     printf("A: %s\n", &A[0]);
     printf("B: %s\n", &B[0]);
     Strings x(A, B);
-    x.lcs(x.m, x.n);
-    for(int i=0; i<x.m; i++)
-    {
-        for(int j=0; j<x.n; j++)
-        {
-            int l = x.memo[i][j];
-            cout<<((l == -1)?l+1:l)<<" ";
-        }
-        cout<<'\n';
-    }
+    cout<<x.lcs(x.n, x.m)<<'\n';
     return 0;
 }
