@@ -1,55 +1,58 @@
 #include<iostream>
+#include<map>
 
-int updateLcs(std::string A, std::string B, int **lcs, int m, int n)
-{
-    for(int i=1; i<m; i++)
-    {
-        for(int j=1; j<n; j++)
-        {
-            if(A[i] == B[j])
-                lcs[i][j] = lcs[i-1][j-1] + 1;
-            else
-                lcs[i][j] = (lcs[i][j-1] > lcs[i-1][j])? lcs[i][j-1]:lcs[i-1][j];
-        }
-    }
-}
+using namespace std;
 
-std::string findlcs(std::string A, std::string B, int **lcs, int m, int n)
+struct LCS
 {
-    std::string str = "";
-    for(int i=m-1; i>0; i--)
+    char *A;
+    char *B;
+    int m;
+    int n;
+    int **memo;
+    LCS(string A, string B)
     {
-        for(int j=n-1; j>0; j--)
-        {
-            if(lcs[i][j] == 0)
-                return str;
-            if(lcs[i-1][j-1] + 1 == lcs[i][j] && lcs[i][j-1] != lcs[i][j])
-            {
-                str += A[i-1];
-                i--;
-            }
-        }
+        this->A = &A[0];
+        this->B = &B[0];
+        m = A.size();
+        n = B.size();
+        memo = new int*[m];
+        for(int i=0; i<n; i++)
+            memo[i] = new int[n];
+        for(int i=0; i<m; i++)
+            for(int j=0; j<n; j++)
+                memo[i][j] = 0;
     }
+};
+
+int lcs_len(LCS x, int m, int n)
+{
+    if(m == 0 || n == 0)
+        return 0;
+    else if(x.memo[m-1][n-1] != -1)
+        return x.memo[m-1][n-1];
+    else if(x.A[m-1] == x.B[n-1])
+        x.memo[m-1][n-1] = 1 + lcs_len(x, m-1, n-1);
+    else
+        x.memo[m-1][n-1] = max(lcs_len(x, m-1, n), lcs_len(x, m, n-1));
+    return x.memo[m-1][n-1];
+    
 }
 
 int main()
 {
-    std::string A, B;
+    string A, B;
     printf("A: ");
-    std::cin>>A;
+    cin>>A;
     printf("B: ");
-    std::cin>>B;
-    int m = A.length()+1;
-    int n = B.length()+1;
-    int **lcs;
-    lcs = new int*[m];
-    for(int i=0; i<m; i++)
-        lcs[i] = new int[n];
-    for(int i=0; i<m; i++)
-        lcs[i][0] = 0;
-    for(int i=0; i<n; i++)
-        lcs[0][i] = 0;
-    updateLcs(A, B, lcs, m, n);
-    std::cout<<findlcs(A, B, lcs, m, n)<<'\n';
+    cin>>B;
+    LCS x(A, B);
+    lcs_len(x, x.m, x.n);
+    for(int i=0; i<x.m; i++)
+    {
+        for(int j=0; j<x.n; j++)
+            cout<<x.memo[i][j]<<" ";
+        cout<<'\n';
+    }
     return 0;
 }
