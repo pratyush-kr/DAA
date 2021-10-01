@@ -29,14 +29,19 @@ int lcs_len(LCS x, int m, int n)
 {
     if(m == 0 || n == 0)
         return 0;
-    else if(x.memo[m-1][n-1] != -1)
+    if(x.memo[m-1][n-1] != 0)
         return x.memo[m-1][n-1];
-    else if(x.A[m-1] == x.B[n-1])
+    if(x.A[m-1] == x.B[n-1])
+    {
         x.memo[m-1][n-1] = 1 + lcs_len(x, m-1, n-1);
+        return x.memo[m-1][n-1];
+    }
     else
+    {
         x.memo[m-1][n-1] = max(lcs_len(x, m-1, n), lcs_len(x, m, n-1));
-    return x.memo[m-1][n-1];
-    
+        return x.memo[m-1][n-1];
+    }
+    return 0;
 }
 
 int main()
