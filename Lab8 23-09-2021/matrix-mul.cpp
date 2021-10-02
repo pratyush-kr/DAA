@@ -36,9 +36,7 @@ int MatrixChainOrder(vector<int> M, int i, int j)
     int min = INT32_MAX;
     int count;
     if(dp->m[i][j] != -1)
-    {
         return dp->m[i][j];
-    }
     for(int k=i; k<j; k++)
     {
         count = MatrixChainOrder(M, i, k) + 
@@ -46,6 +44,7 @@ int MatrixChainOrder(vector<int> M, int i, int j)
                 M[i-1]*M[k]*M[j];
         min = (count<min)? count:min;
         dp->m[i][j] = min;
+        dp->s[i][j] = k;
     }
     return min;
 }
@@ -53,10 +52,16 @@ int MatrixChainOrder(vector<int> M, int i, int j)
 int main()
 {
     vector<int> M;
-    int arr[] = {10, 20, 30, 40, 50, 60};
+    int arr[] = {3, 2, 4, 2, 5};
     int n = sizeof(arr)/sizeof(*arr);
     dp = new DP(n);
     for(int i=0; i<n; i++)
         M.push_back(arr[i]);
     cout<<MatrixChainOrder(M, 1, n-1)<<'\n';
+    for(int i=1; i<n; i++)
+    {
+        for(int j=1; j<n; j++)
+            cout<<dp->s[i][j]<<" ";
+        cout<<'\n';
+    }
 }
