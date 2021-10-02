@@ -1,30 +1,59 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<vector>
+
 using namespace std;
- 
-int MatrixChainOrder(int p[], int i, int j)
+
+struct DP
 {
-    if (i == j)
-        return 0;
-    int k;
-    int min = INT_MAX;
-    int count;
-    for (k = i; k < j; k++)
+    int **memo;
+    int n;
+    DP(int arr_len)
     {
-        count = MatrixChainOrder(p, i, k)
-                + MatrixChainOrder(p, k + 1, j)
-                + p[i - 1] * p[k] * p[j];
- 
-        if (count < min)
-            min = count;
+        n = arr_len;
+        memo = new int*[n];
+        for(int i=0; i<n; i++)
+            memo[i] = new int[n];
+        cout<<"Constructor Sucess\n";
     }
-    return min;
+};
+ 
+int MatrixChainOrder(vector<int> M)
+{
+    DP dp(M.size());
+    int n = M.size();
+    for(int g=0; g<n; g++)
+    {
+        cout<<"Loop1\n";
+        for(int i=0, j=g; j<n; j++, i++)
+        {
+            cout<<"Loop2\n";
+            if(g == 0)
+                dp.memo[i][j] = 0;
+            else if(g = 1)
+                dp.memo[i][j] = M[i]*M[j]*M[j+1];
+            else
+            {
+                int min = INT32_MAX;
+                for(int k=i; k<j; k++)
+                {
+                    cout<<"Loop3\n";
+                    int lc = dp.memo[i][k];
+                    int rc = dp.memo[k+1][j];
+                    int mc = M[i]*M[j+1]*M[k+1];
+                    int tc = lc+rc+mc;
+                    min = (tc<min)? tc:min;
+                }
+                dp.memo[i][j] = min;
+            }
+        }
+    }
+    return dp.memo[0][dp.n-1];
 }
  
 int main()
 {
-    int arr[] = { 1, 2, 3, 4, 3 };
-    int n = sizeof(arr) / sizeof(arr[0]);
- 
-    cout << "Minimum number of multiplications is "
-         << MatrixChainOrder(arr, 1, n - 1);
+    vector<int> M;
+    for(int i=0; i<6; i++)
+        M.push_back(10*(i+1));
+    cout<<MatrixChainOrder(M);
 }
