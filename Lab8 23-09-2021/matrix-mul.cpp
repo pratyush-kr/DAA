@@ -17,43 +17,29 @@ struct DP
     }
 };
  
-int MatrixChainOrder(vector<int> M)
+int MatrixChainOrder(vector<int> M, int i, int j)
 {
-    DP dp(M.size());
-    int n = M.size();
-    for(int g=0; g<n; g++)
+    if(i == j)
+        return 0;
+    int k;
+    int min = INT32_MAX;
+    int count;
+    for(int k=i; k<j; k++)
     {
-        cout<<"Loop1\n";
-        for(int i=0, j=g; j<n; j++, i++)
-        {
-            cout<<"Loop2\n";
-            if(g == 0)
-                dp.memo[i][j] = 0;
-            else if(g = 1)
-                dp.memo[i][j] = M[i]*M[j]*M[j+1];
-            else
-            {
-                int min = INT32_MAX;
-                for(int k=i; k<j; k++)
-                {
-                    cout<<"Loop3\n";
-                    int lc = dp.memo[i][k];
-                    int rc = dp.memo[k+1][j];
-                    int mc = M[i]*M[j+1]*M[k+1];
-                    int tc = lc+rc+mc;
-                    min = (tc<min)? tc:min;
-                }
-                dp.memo[i][j] = min;
-            }
-        }
+        count = MatrixChainOrder(M, i, k) + 
+                MatrixChainOrder(M, k+1, j) +
+                M[i-1]*M[k]*M[j];
+        min = (count<min)? count:min;
     }
-    return dp.memo[0][dp.n-1];
+    return min;
 }
  
 int main()
 {
     vector<int> M;
-    for(int i=0; i<6; i++)
-        M.push_back(10*(i+1));
-    cout<<MatrixChainOrder(M);
+    int arr[] = {10, 20, 30, 40, 50, 60};
+    int n = 6;
+    for(int i=0; i<n; i++)
+        M.push_back(arr[i]);
+    cout<<MatrixChainOrder(M, 1, n-1)<<'\n';
 }
