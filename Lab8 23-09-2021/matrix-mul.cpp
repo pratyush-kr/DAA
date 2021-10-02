@@ -56,7 +56,7 @@ int MatrixChainOrder(vector<int> M, int i, int j)
 int main()
 {
     vector<int> M;
-    int arr[] = {10, 20, 30, 40, 50, 60};
+    int arr[] = {3, 2, 4, 5, 2};
     int n = sizeof(arr)/sizeof(*arr);
     dp = new DP(n);
     for(int i=0; i<n; i++)
