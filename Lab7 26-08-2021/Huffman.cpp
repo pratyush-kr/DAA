@@ -2,6 +2,7 @@
 #include<map>
 #include<vector>
 #include<algorithm>
+#include<queue>
 using namespace std;
 
 struct String;
@@ -83,17 +84,22 @@ string HuffmanTree::bstEncoder(Node *root, char ch, string str = "")
 {
     if(root->left->symbol == ch)
     {
-        str += "1";
+        str += "0";
         return str;
     }
     else if(root->right->symbol == ch)
     {
-        str += "0";
+        str += "1";
         return str;
     }
-    else
+    else if(root->right->symbol = '\0')
     {
-        str += "0";
+        str += "1";
+        return bstEncoder(root->right, ch, str);
+    }
+    else if(root->left->symbol = '\0')
+    {
+        str += '0';
         return bstEncoder(root->right, ch, str);
     }
 }
@@ -112,19 +118,14 @@ string HuffmanTree::decode(string str, Node *root)
     Node *r = root;
     for(char ch : str)
     {
-        if(ch == '1')
-        {
-            s += r->left->symbol;
-            r = root;
-        }
-        else if(ch == '0')
-        {
+        if(ch == '0')
+            r = r->left;
+        else if(ch == '1')
             r = r->right;
-            if(r->symbol != '\0')
-            {
-                s += r->symbol;
-                r = root;
-            }
+        if(r->symbol != '\0')
+        {
+            s += r->symbol;
+            r = root;
         }
     }
     return s;
@@ -133,6 +134,7 @@ string HuffmanTree::decode(string str, Node *root)
 void HuffmanTree::buildTree(Node *root, vector<Node*> LeafNodes, int sum)
 {
     int i=0;
+    Node *r = root;
     for(i=0; i<LeafNodes.size()-2; i++)
     {
         sum = sum - LeafNodes[i]->frequecy;
@@ -153,5 +155,28 @@ void HuffmanTree::buildTree(Node *root, vector<Node*> LeafNodes, int sum)
     Node *n1 = LeafNodes[i];
     Node *n2 = LeafNodes[i+1];
     root->left = (n1->frequecy < n2->frequecy)? n1:n2;
-    root->right = (n1->frequecy > n2->frequecy)? n1:n2;
+    root->right = (n1->frequecy >= n2->frequecy)? n1:n2;
+    cout<<"Tree Built\n";
+    //
+    if (r == NULL)
+        return;
+    // Create an empty queue for level order traversal
+    queue<Node*> q;
+    // Enqueue Root and initialize height
+    q.push(r);
+    while (q.empty() == false) {
+        // Print front of queue and remove it from queue
+        Node* node = q.front();
+        cout << node->frequecy << ", ";
+        if(node->symbol) cout<<node->symbol<<'\n';
+        else cout<<"\n";
+        q.pop();
+        /* Enqueue left child */
+        if (node->left != NULL)
+            q.push(node->left);
+        /*Enqueue right child */
+        if (node->right != NULL)
+            q.push(node->right);
+    }
+    cout<<'\n';
 }
