@@ -62,13 +62,13 @@ void Array::maxHeapify(int i, int n)
     int largest = i;
     int l = 2*i+1;
     int r = 2*i+2;
-    if(array[i] < array[l] || array[i] < array[r])
-    {
-        if(l<n && r<n)
+    if(l<n && r<n)
+    {    
+        if(array[i] < array[l] || array[i] < array[r])
         {
-            largest = (array[l] > array[r])? l : r;
-            swap(array[i], array[largest]);
-            maxHeapify(largest, n);
+                largest = (array[l] > array[r])? l : r;
+                swap(array[i], array[largest]);
+                maxHeapify(largest, n);
         }
     }
 }
@@ -77,7 +77,7 @@ void Array::buildMaxHeap()
 {
     int startIdx = size/2 - 1;
     for(int i=startIdx; i>=0; i--)
-        maxHeapify(i, size);
+        maxHeapify(0, i);
 }
 
 void Array::sort()
