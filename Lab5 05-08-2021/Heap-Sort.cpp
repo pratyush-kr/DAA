@@ -23,7 +23,7 @@ struct Array
     friend istream& operator >> (istream &in, Array arr);
     friend ostream& operator << (ostream &out, Array arr);
     void heapify(int);
-    void buildMaxHeap();
+    void buildHeap();
     void sort();
 };
 
@@ -36,7 +36,7 @@ int main()
     cout<<"Array: ";
     cin>>arr;
     cout<<arr;
-    arr.buildMaxHeap();
+    arr.buildHeap();
     cout<<arr;
     return 0;
 }
@@ -70,7 +70,7 @@ void Array::heapify(int i)
     }
 }
 
-void Array::buildMaxHeap()
+void Array::buildHeap()
 {
     int startIdx = size/2 - 1;
     for(int i=startIdx; i>=0; i--)
@@ -79,7 +79,7 @@ void Array::buildMaxHeap()
 
 void Array::sort()
 {
-    buildMaxHeap();
+    buildHeap();
     for(int i=size-1; i>=0; i--)
     {
         swap(array[0], array[i]);
