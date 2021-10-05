@@ -22,8 +22,10 @@ struct Array
     int *end(){return &array[size-1];}
     friend istream& operator >> (istream &in, Array arr);
     friend ostream& operator << (ostream &out, Array arr);
-    void heapify(int);
-    void buildHeap();
+    void maxHeapify(int, int);
+    void buildMaxHeap();
+    void buildMinHeap();
+    void minHeapify(int, int);
     void sort();
 };
 
@@ -36,7 +38,7 @@ int main()
     cout<<"Array: ";
     cin>>arr;
     cout<<arr;
-    arr.buildHeap();
+    arr.sort();
     cout<<arr;
     return 0;
 }
@@ -57,32 +59,57 @@ ostream& operator << (ostream &out, Array arr)
     return out;
 }
 
-void Array::heapify(int i)
+void Array::maxHeapify(int i, int n)
 {
     int largest = i;
     int l = 2*i+1;
     int r = 2*i+2;
     if(array[i] < array[l] || array[i] < array[r])
     {
-        largest = (array[l] > array[r])? l : r;
-        swap(array[i], array[largest]);
-        heapify(largest);
+        if(l<n && r<n)
+        {
+            largest = (array[l] > array[r])? l : r;
+            swap(array[i], array[largest]);
+            maxHeapify(largest, n);
+        }
     }
 }
 
-void Array::buildHeap()
+void Array::buildMaxHeap()
 {
     int startIdx = size/2 - 1;
     for(int i=startIdx; i>=0; i--)
-        heapify(i);
+        maxHeapify(i, size);
+}
+
+void Array::buildMinHeap()
+{
+    int startIdx = size/2 - 1;
+    for(int i=startIdx; i>=0; i--)
+        minHeapify(0, i);
 }
 
 void Array::sort()
 {
-    buildHeap();
+    buildMaxHeap();
     for(int i=size-1; i>=0; i--)
     {
         swap(array[0], array[i]);
-        heapify(0);
+        maxHeapify(0, i);
+    }
+}
+
+void Array::minHeapify(int i, int n)
+{
+    int smallest = i;
+    int l = 2*i+1;
+    int r = 2*i+2;
+    if(array[i] > array[l] || array[i] > array[r])
+    {
+        if(l<n && r<n)
+        {
+        smallest = (array[l] < array[r])? l : r;
+        minHeapify(smallest, n);
+    }
     }
 }
