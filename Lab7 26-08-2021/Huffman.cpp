@@ -48,12 +48,13 @@ struct HuffmanTree
     string encode(string str, Node *root);
     string decode(string str, Node *root);
     void buildTree(Node *root, vector<Node*> LeafNodes, int sum);
-    void showTree(Node *root);
+    void showTree(Node *root); //Shows Tree in level order
 };
 
 int main()
 {
     string str;
+    cout<<"String: ";
     getline(cin, str);
     cout<<str<<'\n';
     String msg(str);   
@@ -83,26 +84,11 @@ int main()
 
 string HuffmanTree::bstEncoder(Node *root, char ch, string str = "")
 {
-    if(root->left->symbol == ch)
-    {
-        str += "0";
-        return str;
-    }
-    else if(root->right->symbol == ch)
-    {
-        str += "1";
-        return str;
-    }
-    else if(root->right->symbol = '\0')
-    {
-        str += "1";
-        return bstEncoder(root->right, ch, str);
-    }
-    else if(root->left->symbol = '\0')
-    {
-        str += '0';
-        return bstEncoder(root->right, ch, str);
-    }
+    if(root->left->symbol == ch) {str += "0"; return str;}
+    else if(root->right->symbol == ch) {str += "1"; return str;}
+    else if(root->left->symbol == '\0') {str += "0"; return bstEncoder(root->left, ch, str);}
+    else if(root->right->symbol == '\0') {str += "1"; return bstEncoder(root->right, ch, str);}
+    return str;
 }
 
 string HuffmanTree::encode(string str, Node *root)
@@ -157,7 +143,6 @@ void HuffmanTree::buildTree(Node *root, vector<Node*> LeafNodes, int sum)
     Node *n2 = LeafNodes[i+1];
     root->left = (n1->frequecy < n2->frequecy)? n1:n2;
     root->right = (n1->frequecy >= n2->frequecy)? n1:n2;
-    cout<<"Tree Built\n";
     showTree(r);
 }
 
