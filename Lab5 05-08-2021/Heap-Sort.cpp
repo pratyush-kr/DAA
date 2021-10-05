@@ -24,8 +24,6 @@ struct Array
     friend ostream& operator << (ostream &out, Array arr);
     void maxHeapify(int, int);
     void buildMaxHeap();
-    void buildMinHeap();
-    void minHeapify(int, int);
     void sort();
 };
 
@@ -39,7 +37,7 @@ int main()
     cin>>arr;
     cout<<arr;
     arr.sort();
-    cout<<arr;
+    cout<<"Sorted Array:\n"<<arr;
     return 0;
 }
 
@@ -82,13 +80,6 @@ void Array::buildMaxHeap()
         maxHeapify(i, size);
 }
 
-void Array::buildMinHeap()
-{
-    int startIdx = size/2 - 1;
-    for(int i=startIdx; i>=0; i--)
-        minHeapify(0, i);
-}
-
 void Array::sort()
 {
     buildMaxHeap();
@@ -96,20 +87,5 @@ void Array::sort()
     {
         swap(array[0], array[i]);
         maxHeapify(0, i);
-    }
-}
-
-void Array::minHeapify(int i, int n)
-{
-    int smallest = i;
-    int l = 2*i+1;
-    int r = 2*i+2;
-    if(array[i] > array[l] || array[i] > array[r])
-    {
-        if(l<n && r<n)
-        {
-        smallest = (array[l] < array[r])? l : r;
-        minHeapify(smallest, n);
-    }
     }
 }
