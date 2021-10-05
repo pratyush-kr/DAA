@@ -59,7 +59,7 @@ int main()
     int i=0;
     for(auto mp : msg.freq)
         LeafNodes.push_back(new Node(mp.second, mp.first));
-    sort(LeafNodes.begin(), LeafNodes.end(), [](Node *a, Node *b){return (a->frequecy < b->frequecy)? 1:0;});
+    sort(LeafNodes.begin(), LeafNodes.end(), [](Node *a, Node *b){return (a->frequecy > b->frequecy)? 1:0;});
     printf("sorted: ");
     for(auto ptr : LeafNodes)
         printf("%c", ptr->symbol);
@@ -135,11 +135,23 @@ void HuffmanTree::buildTree(Node *root, vector<Node*> LeafNodes, int sum)
     int i=0;
     for(i=0; i<LeafNodes.size()-2; i++)
     {
-        root->left = LeafNodes[i];
         sum = sum - LeafNodes[i]->frequecy;
-        root->right = new Node(sum);
-        root = root->right;
+        Node *node = LeafNodes[i];
+        if(node->frequecy < sum)
+        {
+            root->left = node;
+            root->right = new Node(sum);
+            root = root->right;
+        }
+        else
+        {
+            root->left = new Node(sum);
+            root->right = node;
+            root = root->left;
+        }
     }
-    root->left = LeafNodes[i];
-    root->right = LeafNodes[i+1];
+    Node *n1 = LeafNodes[i];
+    Node *n2 = LeafNodes[i+1];
+    root->left = (n1->frequecy < n2->frequecy)? n1:n2;
+    root->right = (n1->frequecy > n2->frequecy)? n1:n2;
 }
