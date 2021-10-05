@@ -48,6 +48,7 @@ struct HuffmanTree
     string encode(string str, Node *root);
     string decode(string str, Node *root);
     void buildTree(Node *root, vector<Node*> LeafNodes, int sum);
+    void showTree(Node *root);
 };
 
 int main()
@@ -157,26 +158,24 @@ void HuffmanTree::buildTree(Node *root, vector<Node*> LeafNodes, int sum)
     root->left = (n1->frequecy < n2->frequecy)? n1:n2;
     root->right = (n1->frequecy >= n2->frequecy)? n1:n2;
     cout<<"Tree Built\n";
-    //
-    if (r == NULL)
+    showTree(r);
+}
+
+void HuffmanTree::showTree(Node *root)
+{
+    if(root == NULL)
         return;
-    // Create an empty queue for level order traversal
-    queue<Node*> q;
-    // Enqueue Root and initialize height
-    q.push(r);
-    while (q.empty() == false) {
-        // Print front of queue and remove it from queue
-        Node* node = q.front();
-        cout << node->frequecy << ", ";
-        if(node->symbol) cout<<node->symbol<<'\n';
-        else cout<<"\n";
-        q.pop();
-        /* Enqueue left child */
-        if (node->left != NULL)
-            q.push(node->left);
-        /*Enqueue right child */
-        if (node->right != NULL)
-            q.push(node->right);
+    queue<Node*> Queue;
+    Queue.push(root);
+    while(!Queue.empty())
+    {
+        Node *ptr = Queue.front();
+        Queue.pop();
+        if(ptr->symbol)
+            printf("(%c, %d)\n", ptr->symbol, ptr->frequecy);
+        else
+            printf("%d\n", ptr->frequecy);
+        if(ptr->left) Queue.push(ptr->left);
+        if(ptr->right) Queue.push(ptr->right);
     }
-    cout<<'\n';
 }
