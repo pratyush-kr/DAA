@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 
 using namespace std;
 
@@ -11,15 +12,11 @@ void swap(int &a, int &b)
 
 struct Array
 {
-    int *array;
-    int size;
-    Array(int n)
+    vector<int> *array;
+    Array()
     {
-        size = n;
-        array = new int[n];
+        array = new vector<int>;
     }
-    int* begin(){return &array[0];}
-    int *end(){return &array[size-1];}
     friend istream& operator >> (istream &in, Array arr);
     friend ostream& operator << (ostream &out, Array arr);
     void maxHeapify(int, int);
@@ -32,7 +29,7 @@ int main()
     int n;
     cout<<"n: ";
     cin>>n;
-    Array arr(n);
+    Array arr;
     cout<<"Array: ";
     cin>>arr;
     cout<<arr;
@@ -43,16 +40,17 @@ int main()
 
 istream& operator >> (istream &in, Array arr)
 {
-    for(int i=0; i<arr.size; i++)
-        in>>arr.array[i];
+    int element;
+    in>>element;
+    arr.array->push_back(element);
     return in;
 }
 
 ostream& operator << (ostream &out, Array arr)
 {
-    out<<"{"<<arr.array[0];
-    for(int i=1; i<arr.size; i++)
-        out<<", "<<arr.array[i];
+    out<<"{"<<(*arr.array)[0];
+    for(int i=1; i<arr.array->size(); i++)
+        out<<", "<<(*arr.array)[i];
     out<<"}\n";
     return out;
 }
@@ -62,7 +60,7 @@ void Array::maxHeapify(int i, int n)
     int largest = i;
     int l = 2*i+1;
     int r = 2*i+2;
-    largest = (l < n && array[largest] < array[l])? l:i;
+    largest = (l < n && array[largest] < array[l])? l:largest;
     largest = (r < n && array[largest] < array[r])? r:largest;
     if(largest != i)
     {
@@ -73,6 +71,7 @@ void Array::maxHeapify(int i, int n)
 
 void Array::buildMaxHeap()
 {
+    int size = array->size();
     int startIdx = size/2 - 1;
     for(int i=startIdx; i>=0; i--)
         maxHeapify(i, size);
@@ -80,6 +79,7 @@ void Array::buildMaxHeap()
 
 void Array::sort()
 {
+    int size = array->size();
     buildMaxHeap();
     for(int i=size-1; i>=0; i--)
     {
