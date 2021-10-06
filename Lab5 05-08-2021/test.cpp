@@ -3,6 +3,7 @@
 int A[100000];
 int count =0;
 int n;
+#define RANGE 101
 void printMenu(){
    printf("0. Quit\n");
    printf("1. Generate Random Array\n");
@@ -20,7 +21,7 @@ void printMenu(){
 }
 void RANDOM(int A[],int n){
 for(int i=0;i<n;i++)
-    A[i]= rand();
+    A[i]= rand()%RANGE;
 }
 
 void descSort(int A[],int n){
