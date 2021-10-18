@@ -102,7 +102,7 @@ void Array::minSort()
 {
     int size = array.size();
     buildMinHeap();
-    for(int i=size-1; i>0; i--)
+    for(int i=size-1; i>=0; i--)
     {
         swap(array[0], array[i]);
         minHeapify(0, i);
