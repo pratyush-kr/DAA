@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<map>
+#include<queue>
 
 using namespace std;
 
@@ -39,6 +40,8 @@ struct Graph
         weights[{b, a}] = w;
     }
     void dfs(int s);
+    void bfs(int s);
+    void dijkstra(int s, int t);
 };
 
 int main()
@@ -53,11 +56,13 @@ int main()
     printf("a b w\n");
     for(int i=0; i<edges; i++)
     {
-        cin>>a>>b;
-        g.addEdge(a, b);
+        cin>>a>>b>>w;
+        g.addEdge(a, b, w);
     }
     g.dfs(1);
     cout<<'\n';
+    g.bfs(1);
+    g.dijkstra(1, 1);
     return 0;
 }
 
@@ -68,5 +73,48 @@ void Graph::dfs(int s)
     cout<<nodes[s]->id<<" ";
     for(auto x : nodes[s]->adjList)
         if(!visited[x->id])
+        {
+            visited[x->id] = true;
             dfs(x->id);
+        }
+}
+
+void Graph::bfs(int s)
+{
+    map<int, bool> visited;
+    visited[s] = true;
+    queue<Node*> Q;
+    Q.push(nodes[s]);
+    while(!Q.empty())
+    {
+        Node *ptr = Q.front();
+        cout<<ptr->id<<" ";
+        Q.pop();
+        for(auto x : ptr->adjList)
+            if(!visited[x->id])
+            {
+                visited[x->id] = true;
+                dfs(x->id);
+            }
+    }
+    cout<<'\n';
+}
+
+void Graph::dijkstra(int s, int t)
+{
+    static map<int, bool> visited;
+    visited[s] = true;
+    static map<pair<int, int>, int> updatedWeight;
+    for(auto x : nodes)
+        updatedWeight[{s, x.second->id}] = INT32_MAX;
+    updatedWeight[{s, s}] = 0;
+    int minDis;
+    for(auto x : nodes[s]->adjList)
+    {
+        if(!visited[x->id])
+        {
+            int cost = updatedWeight[{s, t}];
+            int distance = updatedWeight[{s, x->id}];
+        }
+    }
 }
