@@ -2,8 +2,12 @@
 #include<vector>
 #include<map>
 #include<queue>
+#define MAX_EDGES 100
 
 using namespace std;
+
+
+int arr[MAX_EDGES] = {INT16_MAX};
 
 struct Node
 {
@@ -62,6 +66,8 @@ int main()
     g.dfs(1);
     cout<<'\n';
     g.bfs(1);
+    for(auto x : g.nodes[1]->adjList)
+
     g.dijkstra(1, 1);
     return 0;
 }
@@ -104,17 +110,12 @@ void Graph::dijkstra(int s, int t)
 {
     static map<int, bool> visited;
     visited[s] = true;
-    static map<pair<int, int>, int> updatedWeight;
-    for(auto x : nodes)
-        updatedWeight[{s, x.second->id}] = INT32_MAX;
-    updatedWeight[{s, s}] = 0;
-    int minDis;
+    int minDis = INT16_MAX;
+    Node *ptr = NULL;
     for(auto x : nodes[s]->adjList)
     {
         if(!visited[x->id])
         {
-            int cost = updatedWeight[{s, t}];
-            int distance = updatedWeight[{s, x->id}];
         }
     }
 }
